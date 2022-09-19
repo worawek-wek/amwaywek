@@ -1,5 +1,6 @@
 const db = require("../models")
 const { validation, getPagingData, getPagination } = require("../utilities/function")
+const { getCharacters } = require("../dynamo")
 const Bcrypt = require("bcrypt");
 const Op = db.Sequelize.Op
 
@@ -25,17 +26,10 @@ module.exports = {
   },
 
   findAll: async (req, res) => {
-    const username = req.query.username;
-    var condition = username ? { username: { [Op.like]: `%${username}%` } } : null;
-    const { page, perPage, sort } = req.body;
-    const { limit, offset } = getPagination(page, perPage);
-    const order = [[sort.field ? sort.field : 'id', sort.desc ? 'DESC' : 'ASC']];
-
     try {
-      let data = await db.User.findAndCountAll({
-        where: condition, order, limit, offset
-      });
-      res.send(getPagingData(data, page, limit));
+      let data = await getCharacters();
+      res.send({ status: "success", row: data });
+      // res.send(getPagingData(data, page, limit));
     } catch (err) {
       res.status(500).send({ status: "error", message: err.message || "ไม่สามารถแสดงข้อมูลได้ในตอนนี้!" });
     }

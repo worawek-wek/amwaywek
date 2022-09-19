@@ -22,15 +22,15 @@ router.post('/auth/logout', authenticateJWT, AdminController.logout);
 
 // AdminController
 router.post('/admin', authenticateJWT, AdminController.create);
-router.post('/admin/data-table', authenticateJWT, AdminController.findAll);
+router.post('/admin/data-table', AdminController.findAll);
 router.put('/admin/:id', validate('id'), authenticateJWT, AdminController.update);
 router.get('/admin/:id', validate('id'), authenticateJWT, AdminController.findOne);
 router.delete('/admin/:id', validate('id'), authenticateJWT, AdminController.delete);
 router.post('/admin/:id/status', validate('id'), authenticateJWT, AdminController.status);
 
 // UserController
-router.post('/user', authenticateJWT, UserController.create);
-router.post('/user/data-table', authenticateJWT, UserController.findAll);
+router.post('/user', UserController.create);
+router.post('/user/data-table', UserController.findAll);
 router.put('/user/:id', validate('id'), authenticateJWT, UserController.update);
 router.get('/user/:id', validate('id'), authenticateJWT, UserController.findOne);
 router.delete('/user/:id', validate('id'), authenticateJWT, UserController.delete);
